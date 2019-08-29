@@ -192,6 +192,22 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                      <groupId>com.github.eirslett</groupId>
+                      <artifactId>frontend-maven-plugin</artifactId>
+                      <version>1.7.6</version>
+                      <executions>
+                        <execution>
+                          <phase>package</phase>
+                          <goals>
+                            <goal>install-node-and-npm</goal>
+                          </goals>
+                        </execution>
+                      </executions>
+                      <configuration>
+                        <nodeVersion>v10.16.0</nodeVersion>
+                      </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
