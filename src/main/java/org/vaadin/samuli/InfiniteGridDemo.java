@@ -10,7 +10,9 @@ import com.vaadin.flow.router.Route;
 
 @Route("")
 @JsModule("src/shared-styles.js")
+@JsModule("src/colorful-cell.js")
 //@HtmlImport("src/shared-styles.html")
+//@HtmlImport("src/colorful-cell.html")
 public class InfiniteGridDemo extends VerticalLayout {
 
   public InfiniteGridDemo() {
@@ -30,7 +32,13 @@ public class InfiniteGridDemo extends VerticalLayout {
 
     InfiniteGrid htmlGrid = createInfiniteGrid();
     htmlGrid.setUseDomBind(true);
-    htmlGrid.setHtmlGenerator((x, y) -> "[[x]], [[y]]");
+    htmlGrid.setHtmlGenerator((x, y) -> {
+      if (y%2==1) {
+        return "[[x]], [[y]]";
+      }
+
+      return "<div style='height:100%;width:100%;background-color: #eee'>[[x]], [[y]]</div>";
+    });
     firstRow.add(htmlGrid);
 
     InfiniteGrid componentGrid = createInfiniteGrid();
@@ -44,14 +52,12 @@ public class InfiniteGridDemo extends VerticalLayout {
     InfiniteGrid colorGrid = new InfiniteGrid();
     colorGrid.setCellSize(100,100);
     colorGrid.setItemCount(1000, 1000);
-    colorGrid.setHtmlGenerator((x,y) -> {
-      return "<div style=\"width: 100%; height:100%; background-color: #" +
-          String.format("%02x%02x%02x",
-              Math.abs((int)(Math.sin(x*0.3)*255)),
-              Math.abs((int)(Math.sin(x*0.2)*127 + Math.cos(y*0.2)*127)),
-              Math.abs((int)(Math.cos(y*0.3)*255))) +
-          ";\"></div>";
-    });
+    colorGrid.setTemplateGenerator("<colorful-cell x=[[x]] y=[[y]]></colorful-cell>");
+    colorGrid.getElement()
+        .addEventListener("clickcell", e -> Notification.show("Clicked " +
+            (int)e.getEventData().getObject("event.detail").getNumber("x") + ", " +
+            (int)e.getEventData().getObject("event.detail").getNumber("y")))
+        .addEventData("event.detail");
     secondRow.add(colorGrid);
 
     firstRow.setFlexGrow(0.5, textGrid);
@@ -63,7 +69,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     setMargin(false);
     setPadding(false);
     H3 title = new H3(
-        "Below there are 4 InfiniteGrids. 1. has text only content. 2. has html with data model. 3. has Vaadin components. 4. has colorful html content as a show off."
+        "Below there are 4 InfiniteGrids. 1. Server generated text. 2. Server generated html with data model. 3. Vaadin components. 4. Static polymer template with data model."
     );
     add(
         title,
