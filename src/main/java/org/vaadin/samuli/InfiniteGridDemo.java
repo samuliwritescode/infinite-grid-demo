@@ -27,7 +27,23 @@ public class InfiniteGridDemo extends VerticalLayout {
 
     InfiniteGrid textGrid = createInfiniteGrid();
     textGrid.setTextOnly(true);
-    textGrid.setHtmlGenerator((x,y)-> String.format("%d, %d", x,y));
+    textGrid.setFrozenRows(1);
+    textGrid.setFrozenColumns(1);
+    textGrid.setHtmlGenerator((x,y)-> {
+      if (x == 0 && y == 0) {
+        return "";
+      }
+
+      if (x == 0) {
+        return "row "+y;
+      }
+
+      if (y == 0) {
+        return "col "+x;
+      }
+
+      return String.format("%d, %d", x,y);
+    });
     firstRow.add(textGrid);
 
     InfiniteGrid htmlGrid = createInfiniteGrid();
@@ -50,7 +66,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     secondRow.add(componentGrid);
 
     InfiniteGrid colorGrid = new InfiniteGrid();
-    colorGrid.setCellSize(100,100);
+    colorGrid.setCellSize(70,70);
     colorGrid.setItemCount(1000, 1000);
     colorGrid.setTemplateGenerator("<colorful-cell x=[[x]] y=[[y]]></colorful-cell>");
     colorGrid.getElement()
@@ -69,7 +85,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     setMargin(false);
     setPadding(false);
     H3 title = new H3(
-        "Below there are 4 InfiniteGrids. 1. Server generated text. 2. Server generated html with data model. 3. Vaadin components. 4. Static polymer template with data model."
+        "Below there are 4 InfiniteGrids. 1. Server generated text with column and row header. 2. Server generated html with data model. 3. Vaadin components. 4. Static polymer template with data model."
     );
     add(
         title,
@@ -85,7 +101,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     InfiniteGrid infiniteGrid = new InfiniteGrid();
     infiniteGrid.getElement().getClassList().add("borders");
     infiniteGrid.setCellSize(200, 40);
-    infiniteGrid.setItemCount(100000, 100000);
+    infiniteGrid.setItemCount(100, 100000);
     return infiniteGrid;
   }
 }
