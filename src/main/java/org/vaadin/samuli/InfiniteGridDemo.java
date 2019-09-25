@@ -101,7 +101,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     InfiniteGrid infiniteGrid = new InfiniteGrid();
     infiniteGrid.getElement().getClassList().add("borders");
     infiniteGrid.setCellSize(200, 40);
-    infiniteGrid.setItemCount(100, 100000);
+    infiniteGrid.setItemCount(100, 100);
     return infiniteGrid;
   }
 }
