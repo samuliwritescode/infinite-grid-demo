@@ -5,7 +5,6 @@ webpack.generated.js
 node_modules/
 frontend/generated/*
 /package.json
-/package-lock.json
 /tsconfig.json
 /types.d.ts
 /vite.config.ts
