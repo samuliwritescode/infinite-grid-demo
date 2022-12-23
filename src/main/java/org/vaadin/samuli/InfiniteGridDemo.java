@@ -9,10 +9,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 @Route("")
-@JsModule("src/shared-styles.js")
-@JsModule("src/colorful-cell.js")
-//@HtmlImport("src/shared-styles.html")
-//@HtmlImport("src/colorful-cell.html")
+@JsModule("./src/shared-styles.js")
+@JsModule("./src/colorful-cell.js")
 public class InfiniteGridDemo extends VerticalLayout {
 
   public InfiniteGridDemo() {
