@@ -48,10 +48,10 @@ public class InfiniteGridDemo extends VerticalLayout {
     htmlGrid.setUseDomBind(true);
     htmlGrid.setHtmlGenerator((x, y) -> {
       if (y%2==1) {
-        return "[[x]], [[y]]";
+        return "${this.x}, ${this.y}";
       }
 
-      return "<div style='height:100%;width:100%;background-color: #eee'>[[x]], [[y]]</div>";
+      return "<div style='height:100%;width:100%;background-color: #eee'>${this.x}, ${this.y}</div>";
     });
     firstRow.add(htmlGrid);
 
@@ -66,7 +66,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     InfiniteGrid colorGrid = new InfiniteGrid();
     colorGrid.setCellSize(70,70);
     colorGrid.setItemCount(1000, 1000);
-    colorGrid.setTemplateGenerator("<colorful-cell x=[[x]] y=[[y]]></colorful-cell>");
+    colorGrid.setTemplateGenerator("<colorful-cell x=${this.y} y=${this.y}></colorful-cell>");
     colorGrid.getElement()
         .addEventListener("clickcell", e -> Notification.show("Clicked " +
             (int)e.getEventData().getObject("event.detail").getNumber("x") + ", " +
