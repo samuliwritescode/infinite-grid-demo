@@ -11,7 +11,7 @@ class ColorfulCell extends LitElement {
                 cursor: hand;
             }
         </style>
-   <div on-click="onClick" style="cursor: pointer; width: 100%; height: 100%; background-color: [[color]]"></div>
+   <div on-click="onClick" style="cursor: pointer; width: 100%; height: 100%; background-color: ${this.getColor(this.x, this.y)}"></div>
 `;
   }
 
@@ -22,11 +22,7 @@ class ColorfulCell extends LitElement {
   static get properties() {
       return {
           x: Number,
-          y:Number,
-          color: {
-              type: String,
-              computed: 'getColor(x,y)'
-          }
+          y: Number
       }
   }
 
