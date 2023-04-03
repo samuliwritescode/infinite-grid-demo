@@ -83,7 +83,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     setMargin(false);
     setPadding(false);
     H3 title = new H3(
-        "Below there are 4 InfiniteGrids. 1. Server generated text with column and row header. 2. Server generated html with data model. 3. Vaadin components. 4. Static polymer template with data model."
+        "Below there are 4 InfiniteGrids. 1. Server generated text with column and row header. 2. Server generated html with data model. 3. Vaadin components. 4. Static lit template with data model."
     );
     add(
         title,
