@@ -10,3 +10,4 @@ frontend/generated/*
 /vite.config.ts
 /vite.generated.ts
 /frontend/index.html
+/src/main/dev-bundle/

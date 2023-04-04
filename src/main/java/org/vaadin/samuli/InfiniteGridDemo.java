@@ -24,7 +24,6 @@ public class InfiniteGridDemo extends VerticalLayout {
     secondRow.setMargin(false);
 
     InfiniteGrid textGrid = createInfiniteGrid();
-    textGrid.setTextOnly(true);
     textGrid.setFrozenRows(1);
     textGrid.setFrozenColumns(1);
     textGrid.setHtmlGenerator((x,y)-> {
@@ -41,18 +40,17 @@ public class InfiniteGridDemo extends VerticalLayout {
       }
 
       return String.format("%d, %d", x,y);
-    });
+    }, InfiniteGrid.HTMLRenderingHints.TEXT_ONLY);
     firstRow.add(textGrid);
 
     InfiniteGrid htmlGrid = createInfiniteGrid();
-    htmlGrid.setUseDomBind(true);
     htmlGrid.setHtmlGenerator((x, y) -> {
       if (y%2==1) {
         return String.format("%d, %d", x,y);
       }
 
       return String.format("<div style='height:100%%;width:100%%;background-color: #eee'>%d, %d</div>", x, y);
-    });
+    }, InfiniteGrid.HTMLRenderingHints.NORMAL);
     firstRow.add(htmlGrid);
 
     InfiniteGrid componentGrid = createInfiniteGrid();
@@ -83,7 +81,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     setMargin(false);
     setPadding(false);
     H3 title = new H3(
-        "Below there are 4 InfiniteGrids. 1. Server generated text with column and row header. 2. Server generated html with data model. 3. Vaadin components. 4. Static lit template with data model."
+        "Below there are 4 InfiniteGrids. 1. Server generated text with column and row header. 2. Server generated html. 3. Vaadin components. 4. Static lit template."
     );
     add(
         title,
