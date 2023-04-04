@@ -1,7 +1,7 @@
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-class ColorfulCell extends PolymerElement {
-  static get template() {
+import {LitElement, html} from 'lit';
+
+class ColorfulCell extends LitElement {
+  render() {
     return html`
    <style>
             :host {
@@ -10,8 +10,8 @@ class ColorfulCell extends PolymerElement {
                 height: 100%;
                 cursor: hand;
             }
-        </style> 
-   <div on-click="onClick" style="cursor: pointer; width: 100%; height: 100%; background-color: [[color]]"></div> 
+        </style>
+   <div on-click="onClick" style="cursor: pointer; width: 100%; height: 100%; background-color: ${this.getColor(this.x, this.y)}"></div>
 `;
   }
 
@@ -22,11 +22,7 @@ class ColorfulCell extends PolymerElement {
   static get properties() {
       return {
           x: Number,
-          y:Number,
-          color: {
-              type: String,
-              computed: 'getColor(x,y)'
-          }
+          y: Number
       }
   }
 

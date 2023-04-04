@@ -9,10 +9,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 @Route("")
-@JsModule("src/shared-styles.js")
-@JsModule("src/colorful-cell.js")
-//@HtmlImport("src/shared-styles.html")
-//@HtmlImport("src/colorful-cell.html")
+@JsModule("./src/shared-styles.js")
+@JsModule("./src/colorful-cell.js")
 public class InfiniteGridDemo extends VerticalLayout {
 
   public InfiniteGridDemo() {
@@ -26,7 +24,6 @@ public class InfiniteGridDemo extends VerticalLayout {
     secondRow.setMargin(false);
 
     InfiniteGrid textGrid = createInfiniteGrid();
-    textGrid.setTextOnly(true);
     textGrid.setFrozenRows(1);
     textGrid.setFrozenColumns(1);
     textGrid.setHtmlGenerator((x,y)-> {
@@ -43,18 +40,17 @@ public class InfiniteGridDemo extends VerticalLayout {
       }
 
       return String.format("%d, %d", x,y);
-    });
+    }, InfiniteGrid.HTMLRenderingHints.TEXT_ONLY);
     firstRow.add(textGrid);
 
     InfiniteGrid htmlGrid = createInfiniteGrid();
-    htmlGrid.setUseDomBind(true);
     htmlGrid.setHtmlGenerator((x, y) -> {
       if (y%2==1) {
-        return "[[x]], [[y]]";
+        return String.format("%d, %d", x,y);
       }
 
-      return "<div style='height:100%;width:100%;background-color: #eee'>[[x]], [[y]]</div>";
-    });
+      return String.format("<div style='height:100%%;width:100%%;background-color: #eee'>%d, %d</div>", x, y);
+    }, InfiniteGrid.HTMLRenderingHints.NORMAL);
     firstRow.add(htmlGrid);
 
     InfiniteGrid componentGrid = createInfiniteGrid();
@@ -68,7 +64,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     InfiniteGrid colorGrid = new InfiniteGrid();
     colorGrid.setCellSize(70,70);
     colorGrid.setItemCount(1000, 1000);
-    colorGrid.setTemplateGenerator("<colorful-cell x=[[x]] y=[[y]]></colorful-cell>");
+    colorGrid.setTemplateGenerator("<colorful-cell></colorful-cell>");
     colorGrid.getElement()
         .addEventListener("clickcell", e -> Notification.show("Clicked " +
             (int)e.getEventData().getObject("event.detail").getNumber("x") + ", " +
@@ -85,7 +81,7 @@ public class InfiniteGridDemo extends VerticalLayout {
     setMargin(false);
     setPadding(false);
     H3 title = new H3(
-        "Below there are 4 InfiniteGrids. 1. Server generated text with column and row header. 2. Server generated html with data model. 3. Vaadin components. 4. Static polymer template with data model."
+        "Below there are 4 InfiniteGrids. 1. Server generated text with column and row header. 2. Server generated html. 3. Vaadin components. 4. Static lit template."
     );
     add(
         title,

@@ -3,3 +3,11 @@
 target/
 webpack.generated.js
 node_modules/
+frontend/generated/*
+/package.json
+/tsconfig.json
+/types.d.ts
+/vite.config.ts
+/vite.generated.ts
+/frontend/index.html
+/src/main/dev-bundle/
