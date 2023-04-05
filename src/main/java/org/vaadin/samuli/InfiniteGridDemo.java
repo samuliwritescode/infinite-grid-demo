@@ -2,7 +2,6 @@ package org.vaadin.samuli;
 
 import com.github.mvysny.vaadinboot.VaadinBoot;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
@@ -87,7 +86,6 @@ public class InfiniteGridDemo extends VerticalLayout {
         );
         add(
                 title,
-                new ComboBox<>(),
                 firstRow,
                 secondRow
         );
