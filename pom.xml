@@ -4,7 +4,7 @@
     <artifactId>infinitegrid-demo</artifactId>
     <name>infinitegrid-demo</name>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -51,6 +51,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.mvysny.vaadin-boot</groupId>
+            <artifactId>vaadin-boot</artifactId>
+            <version>11.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-core</artifactId>
         </dependency>
@@ -72,28 +77,16 @@
         <dependency>
           <groupId>org.vaadin.samuli</groupId>
           <artifactId>infinitegrid</artifactId>
-          <version>0.8</version>
+          <version>1.0.2</version>
         </dependency>
     </dependencies>
 
     <build>
-        <defaultGoal>jetty:run</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
-            </plugin>
-            <!-- Jetty plugin for easy testing without a server -->
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>11.0.13</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
             </plugin>
             <plugin>
                 <groupId>com.vaadin</groupId>
@@ -106,26 +99,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-dependency-plugin</artifactId>
-              <executions>
-                <execution>
-                  <phase>package</phase>
-                  <goals><goal>copy</goal></goals>
-                  <configuration>
-                    <artifactItems>
-                      <artifactItem>
-                        <groupId>com.github.jsimone</groupId>
-                        <artifactId>webapp-runner</artifactId>
-                        <version>9.0.24.0</version>
-                        <destFileName>webapp-runner.jar</destFileName>
-                      </artifactItem>
-                    </artifactItems>
-                  </configuration>
-                </execution>
-              </executions>
             </plugin>
         </plugins>
     </build>
@@ -158,11 +131,43 @@
                         <executions>
                             <execution>
                                 <goals>
+                                    <goal>prepare-frontend</goal>
                                     <goal>build-frontend</goal>
                                 </goals>
                                 <phase>compile</phase>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>org.vaadin.samuli.InfiniteGridDemo</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptors>
+                                <descriptor>src/main/assembly/zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <configuration>
+                            <mainClass>org.vaadin.samuli.InfiniteGridDemo</mainClass>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
