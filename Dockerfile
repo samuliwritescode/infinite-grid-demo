@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17 AS BUILD
+FROM eclipse-temurin:21 AS BUILD
 RUN apt update && apt install unzip maven -y
 COPY . /app/
 WORKDIR /app/
@@ -7,7 +7,7 @@ WORKDIR /app/target/
 RUN ls -la
 RUN unzip *.zip -d app/
 
-FROM eclipse-temurin:17
+FROM eclipse-temurin:21
 COPY --from=BUILD /app/target/app /app/
 WORKDIR /app/
 EXPOSE 8080
