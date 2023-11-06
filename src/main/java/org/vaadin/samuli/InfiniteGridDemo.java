@@ -104,6 +104,6 @@ public class InfiniteGridDemo extends VerticalLayout {
 
     public static void main(String[] args) throws Exception {
         //Thanks @mvysny
-        new VaadinBoot().withArgs(args).run();
+        new VaadinBoot().run();
     }
 }
