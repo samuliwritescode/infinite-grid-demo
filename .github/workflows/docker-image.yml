@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag infinite-grid-demo:latest
+      run: docker build . --file Dockerfile --tag ghcr.io/capeisti/infinite-grid-demo:latest
 
     - name: Log into registry ${{ env.REGISTRY }}
       if: github.event_name != 'pull_request'
