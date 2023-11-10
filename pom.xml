@@ -129,5 +129,96 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>it</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                    <version>4.15.0</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter</artifactId>
+                    <version>5.10.1</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.43.4</version>
+                        <configuration>
+                            <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+                            <images>
+                                <image>
+                                    <name>ghcr.io/capeisti/infinite-grid-demo:latest</name>
+                                    <run>
+                                        <network>
+                                            <mode>custom</mode>
+                                            <name>privatenetwork</name>
+                                            <alias>demo</alias>
+                                        </network>
+                                        <wait>
+                                            <time>30000</time>
+                                            <log>Press ENTER or CTRL</log>
+                                        </wait>
+                                    </run>
+                                </image>
+                                <image>
+                                    <name>selenium/standalone-chrome:latest</name>
+                                    <run>
+                                        <ports>
+                                            <port>4444:4444</port>
+                                        </ports>
+                                        <network>
+                                            <mode>custom</mode>
+                                            <name>privatenetwork</name>
+                                            <alias>selenium</alias>
+                                        </network>
+                                        <wait>
+                                            <time>30000</time>
+                                            <log>Started Selenium Standalone</log>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
+
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>docker-it-test-start</id>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                                <phase>pre-integration-test</phase>
+                            </execution>
+                            <execution>
+                                <id>docker-it-test-stop</id>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                                <phase>post-integration-test</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
