@@ -9,8 +9,6 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
 
@@ -19,9 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
-
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag infinite-grid-demo:latest
@@ -36,4 +31,4 @@ jobs:
 
     - name: Push
       run: |
-        docker push infinite-grid-demo:latest
+        docker push ghcr.io/capeisti/infinite-grid-demo:latest
