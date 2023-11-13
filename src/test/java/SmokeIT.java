@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,14 +23,33 @@ public class SmokeIT {
 
     @BeforeEach
     public void setup() throws MalformedURLException {
+        driver = hasChromeDriverInstalled() ? getLocalDriver() : getRemoteDriver();
+    }
+
+    private boolean hasChromeDriverInstalled() {
+        return System.getProperty("webdriver.chrome.driver") != null;
+    }
+
+    private RemoteWebDriver getRemoteDriver() throws MalformedURLException {
         ChromeOptions options = new ChromeOptions().addArguments(
                 "--ignore-certificate-errors",
                 "--ignore-ssl-errors=yes"
         );
-        driver = new RemoteWebDriver(new URL("http://localhost:4444"),
+        RemoteWebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444"),
                 options
         );
         driver.get("http://demo:8080/");
+        return driver;
+    }
+
+    private RemoteWebDriver getLocalDriver() {
+        ChromeOptions options = new ChromeOptions().addArguments(
+                "--ignore-certificate-errors",
+                "--ignore-ssl-errors=yes"
+        );
+        RemoteWebDriver driver = new ChromeDriver(options);
+        driver.get("http://localhost:8080/");
+        return driver;
     }
 
     @AfterEach
